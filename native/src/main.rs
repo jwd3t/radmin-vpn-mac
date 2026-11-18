@@ -61,7 +61,7 @@ fn identity(profile: &Path, name: &str, stop: Arc<AtomicBool>) -> Result<Identit
     ensure!(!intent.exists(), "An earlier registration has an unknown outcome. The previous device was preserved; automatic registration is disabled.");
     ensure!(!profile.join("registration-complete").exists(),
         "Saved Keychain identity is missing for a previously registered device; automatic registration is disabled");
-    phase("provisioning", "Регистрация устройства в Radmin");
+    phase("provisioning", "Registering device with Radmin");
     let new_identity = Session::provision_controlled(openrad::SERVER_MODULUS, name,
         openrad::DEFAULT_BOOTSTRAP_HOST, &ReportDirectory::disabled(),
         &mut || {
@@ -79,7 +79,7 @@ fn identity(profile: &Path, name: &str, stop: Arc<AtomicBool>) -> Result<Identit
         match identity_store::store(profile, &bytes, &stop) {
             Ok(()) => break,
             Err(_) => {
-                phase("storage", "Не удалось сохранить устройство в Связке ключей. Разблокируйте её; запись будет повторена.");
+                phase("storage", "Could not save device to Keychain. Unlock it; saving will be retried.");
                 if stop.load(Ordering::Relaxed) {
                     // Preserve recovery under private permissions instead of losing an issued device.
                     let mut recovery = OpenOptions::new().write(true).create_new(true).mode(0o600)
@@ -166,7 +166,7 @@ fn main() -> Result<()> {
                             let device = session_identity.get_or_load(|| identity(&profile, &request.name, worker_stop.clone()))?;
                             ensure!(!worker_stop.load(Ordering::Relaxed), "cancelled");
                             emit(json!({"event":"device","name":device.node_name,"vip":device.vip}));
-                            phase("connecting", "Подключение к серверу Radmin");
+                            phase("connecting", "Connecting to Radmin server");
                             let helper = std::env::current_exe()?.with_file_name("radmin-bridge");
                             let metrics = std::sync::Mutex::new(performance::PerformanceLog::open(&profile).ok());
                             let diagnostics = metrics.lock().ok().and_then(|log| log.as_ref().map(|log| log.diagnostics())).unwrap_or_default();
@@ -180,16 +180,16 @@ fn main() -> Result<()> {
                         if alive.load(Ordering::Relaxed) {
                             match result {
                                 Err(e) if !worker_stop.load(Ordering::Relaxed) => phase("error", &format!("{e:#}")),
-                                _ => phase("stopped", "Отключено"),
+                                _ => phase("stopped", "Disconnected"),
                             }
                         }
                     });
                     running = Some(Running {stop,commands:tx,worker});
                 },
                 "disconnect" => {
-                    phase("stopping", "Отключение");
+                    phase("stopping", "Disconnecting");
                     if let Some(worker) = running.take() { worker.stop(); }
-                    phase("stopped", "Отключено");
+                    phase("stopped", "Disconnected");
                 },
                 "join" | "create" | "leave" | "retry_interface" | "retry_peers" | "ping" | "search" => {
                     let current = running.as_ref().context("Connect first")?;

@@ -1,0 +1,359 @@
+/* System language option in Settings language picker */
+"language.system" = "System default";
+
+/* System menu title in menu bar and main window */
+"menu.system" = "System";
+
+/* Connect action in System menu */
+"menu.system.connect" = "Connect";
+
+/* Disconnect action in System menu */
+"menu.system.disconnect" = "Disconnect";
+
+/* Settings action in System menu */
+"menu.system.settings" = "Settings…";
+
+/* Quit action in System menu */
+"menu.system.quit" = "Quit";
+
+/* Network menu title in menu bar and main window */
+"menu.network" = "Network";
+
+/* Create network action in Network menu */
+"menu.network.create" = "Create Network…";
+
+/* Join network action in Network menu and empty state */
+"menu.network.join" = "Join Network…";
+
+/* Retry peer connections action in Network menu */
+"menu.network.retry_peers" = "Retry Connections";
+
+/* Help menu title in main window */
+"menu.help" = "Help";
+
+/* About and connection details action in Help menu */
+"menu.help.about" = "About & Connection Info";
+
+/* Light appearance option in Settings */
+"appearance.light" = "Light";
+
+/* Dark appearance option in Settings */
+"appearance.dark" = "Dark";
+
+/* Automatic appearance option in Settings */
+"appearance.system" = "Automatic";
+
+/* Status badge and peer fallback status when online */
+"status.online" = "Online";
+
+/* Status badge when connected to server while waiting for utun adapter */
+"status.waiting_adapter" = "Waiting for adapter";
+
+/* Status badge and peer fallback status when offline */
+"status.offline" = "Offline";
+
+/* Status badge when connection phase is error */
+"status.connection_error" = "Connection error";
+
+/* Status badge while disconnecting */
+"status.disconnecting" = "Disconnecting…";
+
+/* Status badge while registering device */
+"status.registering" = "Registering…";
+
+/* Status badge and peer fallback status while connecting */
+"status.connecting" = "Connecting…";
+
+/* Banner message prompting user to approve adapter setup in macOS */
+"status.confirm_adapter" = "Approve adapter setup in macOS";
+
+/* Help tooltip for the connection details info button */
+"status.connection_info" = "Connection details";
+
+/* Accessibility label and tooltip for power button when disconnected */
+"power.connect" = "Connect VPN";
+
+/* Accessibility label and tooltip for power button when connected */
+"power.disconnect" = "Disconnect VPN";
+
+/* Empty state message when connected to server with no networks */
+"empty.no_networks" = "No connected networks";
+
+/* Empty state message while waiting to connect */
+"empty.waiting_connection" = "Waiting for connection…";
+
+/* Empty state message when disconnected */
+"empty.press_power" = "Press the power button";
+
+/* Retry button in interface error banner */
+"action.retry" = "Retry";
+
+/* Cancel button in network sheet */
+"action.cancel" = "Cancel";
+
+/* Create button in create-network sheet */
+"action.create" = "Create";
+
+/* Connect button in join-network sheet */
+"action.connect" = "Connect";
+
+/* Title of one-time adapter helper setup sheet */
+"bridge_setup.title" = "One-time adapter setup";
+
+/* Description of one-time adapter helper setup sheet */
+"bridge_setup.description" = "Install the Radmin VPN system helper once. After that, connecting and reconnecting will not ask for an administrator password for the adapter.";
+
+/* Security note in one-time adapter helper setup sheet */
+"bridge_setup.note" = "The helper only creates the Radmin adapter. The engine and keys stay in your user process.";
+
+/* Later button in one-time adapter helper setup sheet */
+"bridge_setup.later" = "Later";
+
+/* Install and connect button in one-time adapter helper setup sheet */
+"bridge_setup.install_and_connect" = "Install & Connect";
+
+/* Confirmation dialog title when leaving a network */
+"dialog.leave_network.title" = "Leave network “%@”?";
+
+/* Destructive confirm button when leaving a network */
+"dialog.leave_network.confirm" = "Leave Network";
+
+/* Confirmation dialog message when leaving a network */
+"dialog.leave_network.message" = "Rejoining a private network will require its password.";
+
+/* Accessibility label to expand a collapsed network card */
+"a11y.network.expand" = "Expand network %@";
+
+/* Accessibility label to collapse an expanded network card */
+"a11y.network.collapse" = "Collapse network %@";
+
+/* Accessibility value for selected peer row */
+"a11y.selected" = "Selected";
+
+/* Context menu action to leave a network */
+"network.leave" = "Leave Network…";
+
+/* Empty network card text when no other peers are in the network */
+"network.no_peers" = "No other peers";
+
+/* Peer context menu action to ping a peer */
+"peer.ping" = "Ping";
+
+/* Context menu action to copy local or peer IP address */
+"peer.copy_ip" = "Copy IP Address";
+
+/* Peer tooltip/accessibility quality text before latency has been measured */
+"quality.not_measured" = "Latency not measured yet";
+
+/* Peer tooltip/accessibility quality text when ping did not answer */
+"quality.no_response" = "No ping response";
+
+/* Peer tooltip/accessibility quality text with RTT in ms and signal bars out of 4 */
+"quality.ping" = "Ping %1$.0f ms · %2$lld of 4";
+
+/* Title in connection details popover and Settings About pane */
+"about.title" = "Radmin VPN for macOS";
+
+/* Label for local Radmin IP address in connection details popover */
+"details.address" = "Address";
+
+/* Label for virtual adapter state in connection details popover */
+"details.adapter" = "Adapter";
+
+/* Virtual adapter connected value in connection details popover */
+"details.adapter.connected" = "Connected";
+
+/* Virtual adapter disconnected value in connection details popover */
+"details.adapter.disconnected" = "Disconnected";
+
+/* Label for sent bytes in connection details popover */
+"details.sent" = "Sent";
+
+/* Label for received bytes in connection details popover */
+"details.received" = "Received";
+
+/* Label for dropped frames in connection details popover */
+"details.dropped_frames" = "Dropped frames";
+
+/* Label for UDP congestion waits in connection details popover */
+"details.udp_congestion_waits" = "UDP window waits";
+
+/* Label for inbound and adapter drops in connection details popover */
+"details.drops_in_adapter" = "Drops: inbound / adapter";
+
+/* Label for queue and forwarding drops in connection details popover */
+"details.drops_queue_forward" = "Drops: queue / forward";
+
+/* Footer in connection details popover */
+"details.footer" = "Independent client · 0.3.3\nOpenRad 2.0.1 · GPL-3.0 / MIT\nNot affiliated with Famatech.";
+
+/* Megabytes per second rate format in status bar */
+"rate.mb_s" = "%.1f MB/s";
+
+/* Kilobytes per second rate format in status bar */
+"rate.kb_s" = "%.1f KB/s";
+
+/* Bytes per second rate format in status bar */
+"rate.b_s" = "%.0f B/s";
+
+/* Peer transport label for direct TCP */
+"transport.direct_tcp" = "Direct · TCP";
+
+/* Peer transport label for direct UDP */
+"transport.direct_udp" = "Direct · UDP";
+
+/* Peer transport label for relay */
+"transport.relay" = "Relay";
+
+/* Peer fallback status when transport failed or was refused */
+"transport.no_connection" = "No connection";
+
+/* Sheet title when creating a network */
+"sheet.network.create_title" = "Create Network";
+
+/* Sheet title when joining a network */
+"sheet.network.join_title" = "Join Network";
+
+/* Picker label for network type in join-network sheet */
+"sheet.network.type" = "Network type";
+
+/* Private network option in join-network sheet */
+"sheet.network.private" = "Private network";
+
+/* Gaming network option in join-network sheet */
+"sheet.network.gaming" = "Gaming network";
+
+/* Network name field label in network sheet */
+"sheet.network.name" = "Network name:";
+
+/* Password field label in network sheet */
+"sheet.network.password" = "Password:";
+
+/* Password confirmation field label in create-network sheet */
+"sheet.network.confirm_password" = "Confirm password:";
+
+/* Hint below gaming network form */
+"sheet.network.gaming_hint" = "Enter the exact name of a public Radmin gaming network. No password is required.";
+
+/* Error hint when password confirmation does not match */
+"sheet.network.passwords_mismatch" = "Passwords do not match.";
+
+/* Hint describing valid network password length */
+"sheet.network.password_hint" = "Password: 6 to 256 characters.";
+
+/* Settings window title */
+"prefs.title" = "Settings";
+
+/* Appearance section title and picker label in Settings */
+"prefs.section.appearance" = "Appearance";
+
+/* Connection section title in Settings */
+"prefs.section.connection" = "Connection";
+
+/* About section title in Settings */
+"prefs.section.about" = "About";
+
+/* Heading in Settings Appearance section */
+"prefs.appearance.title" = "Choose a color scheme";
+
+/* Heading in Settings Connection section */
+"prefs.connection.title" = "Connection Settings";
+
+/* Device name label in Settings Connection section */
+"prefs.connection.device" = "Device";
+
+/* Relay-only toggle label in Settings Connection section */
+"prefs.connection.force_relay" = "Use relay only";
+
+/* Hint when relay toggle is locked while VPN is active */
+"prefs.connection.relay_locked_hint" = "Disconnect the VPN with the power button before changing the connection mode.";
+
+/* Hint explaining relay mode in Settings Connection section */
+"prefs.connection.relay_hint" = "Relay routes traffic through a server when a direct connection is unavailable.";
+
+/* Adapter service heading when installed in Settings */
+"prefs.connection.bridge_installed" = "Adapter service installed";
+
+/* Adapter service heading when not installed in Settings */
+"prefs.connection.bridge_not_installed" = "Adapter without repeated admin password";
+
+/* Button to update installed adapter service in Settings */
+"prefs.connection.bridge_update" = "Update Adapter Service…";
+
+/* Button to install adapter service in Settings */
+"prefs.connection.bridge_install" = "Install Service Once…";
+
+/* Default hint under adapter service button in Settings */
+"prefs.connection.bridge_hint" = "One administrator confirmation during setup. Subsequent reconnects use the system service.";
+
+/* Language picker label in Settings Connection section */
+"prefs.connection.language" = "Interface language";
+
+/* Note about unsupported features in Settings Connection section */
+"prefs.connection.unsupported_note" = "Proxy servers and automatic updates are not supported in this version.";
+
+/* Version line in Settings About section */
+"prefs.about.version" = "Version 0.3.3 · SwiftUI · OpenRad 2.0.1";
+
+/* Description text in Settings About section */
+"prefs.about.description" = "Independent compatible client. Not affiliated with Famatech. Native connection without Wine or Windows components.";
+
+/* Link label to OpenRad repository in Settings About section */
+"prefs.about.openrad_link" = "OpenRad upstream engine";
+
+/* Licenses note in Settings About section */
+"prefs.about.licenses" = "Licenses: GPL-3.0 and MIT. Full dependency notices are inside the app's Resources folder.";
+
+/* Phase detail when stopped/disconnected */
+"phase.stopped" = "Disconnected";
+
+/* Phase detail while stopping/disconnecting */
+"phase.stopping" = "Disconnecting…";
+
+/* Phase detail while connecting to Radmin */
+"phase.connecting" = "Connecting to Radmin…";
+
+/* Phase detail while registering device */
+"phase.provisioning" = "Registering device with Radmin…";
+
+/* Phase detail when Keychain storage fails and waits to retry */
+"phase.storage" = "Could not save device to Keychain. Unlock Keychain; saving will be retried.";
+
+/* Phase detail when connected and adapter is ready */
+"phase.online" = "Connected to Radmin";
+
+/* Phase detail when server is connected and adapter is not ready yet */
+"phase.waiting_adapter" = "Server connected · waiting for adapter";
+
+/* Phase detail when scheduled to reconnect after a delay in seconds */
+"phase.reconnecting" = "Connection lost. Reconnecting in %lld s…";
+
+/* Status bar message while joining a network */
+"op.joining" = "Joining network…";
+
+/* Status bar message while creating a network */
+"op.creating" = "Creating network…";
+
+/* Status bar message while leaving a network */
+"op.leaving" = "Leaving network…";
+
+/* Status bar message while pinging a peer IP */
+"op.pinging" = "Checking %@…";
+
+/* Status bar message when ping succeeds with RTT in ms */
+"op.ping_reply" = "Secure channel replied: %.1f ms";
+
+/* Status message shown while waiting for admin authorization to install adapter service */
+"bridge.install_prompt" = "Approve the one-time adapter service installation in the system dialog.";
+
+/* Success message after installing the adapter service */
+"bridge.install_success" = "Adapter service installed. Connections no longer require an administrator password for the adapter.";
+
+/* Error detail when the engine process exits with a non-zero code */
+"error.engine_exited" = "Engine exited (code %d)";
+
+/* Error detail when engine stdout exceeds buffer limit */
+"error.response_too_large" = "Engine response size limit exceeded";
+
+/* Fallback error message when engine command reply fails without detail */
+"error.command" = "Command error";

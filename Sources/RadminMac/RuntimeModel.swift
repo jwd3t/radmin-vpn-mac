@@ -7,7 +7,8 @@ import RadminCore
 @MainActor
 final class RuntimeModel: ObservableObject {
     @Published var phase = "stopped"
-    @Published var connectionDetail = "Отключено"
+    @Published var connectionDetail = L("phase.stopped")
+    @Published var reconnectDelaySeconds: Int?
     @Published var snapshot: EngineSnapshot?
     @Published var deviceName = Host.current().localizedName ?? "MacBook"
     @Published var networkName = ""
@@ -74,20 +75,21 @@ final class RuntimeModel: ObservableObject {
             snapshot = nil; lastTraffic = nil; uploadRate = 0; downloadRate = 0
             onlineSince = nil
             peerQuality = [:]; pingRequests = [:]
-            operationMessage = ""; phase = "connecting"
-            connectionDetail = "Подключение к Radmin…"
+            operationMessage = ""; phase = "connecting"; reconnectDelaySeconds = nil
+            connectionDetail = L("phase.connecting")
             try send(["command": "connect", "name": deviceName, "force_relay": forceRelay])
-        } catch { phase = "error"; connectionDetail = error.localizedDescription; scheduleReconnect() }
+        } catch { phase = "error"; reconnectDelaySeconds = nil; connectionDetail = error.localizedDescription; scheduleReconnect() }
     }
     func disconnect() {
         connectionDesired = false; reconnectTask?.cancel(); reconnectTask = nil
+        reconnectDelaySeconds = nil
         if input == nil {
-            phase = "stopped"; connectionDetail = "Отключено"
+            phase = "stopped"; connectionDetail = L("phase.stopped")
             snapshot = nil; peerQuality = [:]; pingRequests = [:]
             lastTraffic = nil; uploadRate = 0; downloadRate = 0
             return
         }
-        phase = "stopping"; connectionDetail = "Отключение…"
+        phase = "stopping"; connectionDetail = L("phase.stopping")
         do { try send(["command": "disconnect"]) }
         catch { phase = "error"; connectionDetail = error.localizedDescription }
     }
@@ -96,7 +98,8 @@ final class RuntimeModel: ObservableObject {
               let delay = ReconnectPolicy.delay(attempt: retryAttempt, knownIdentity: knownIdentity, error: connectionDetail) else { return }
         retryAttempt += 1
         phase = "reconnecting"
-        connectionDetail = "Связь потеряна. Повторное подключение через \(Int(delay)) с…"
+        reconnectDelaySeconds = Int(delay)
+        connectionDetail = L("phase.reconnecting", Int64(delay))
         reconnectTask = Task { [weak self] in
             do { try await Task.sleep(for: .seconds(delay)) } catch { return }
             guard let self, self.connectionDesired else { return }
@@ -110,7 +113,7 @@ final class RuntimeModel: ObservableObject {
         if privateNetwork { request["password"] = networkPassword }
         do {
             networkOperation = try send(request)
-            operationPending = true; operationMessage = "Вход в сеть…"
+            operationPending = true; operationMessage = L("op.joining")
             networkPassword = ""
         } catch { operationMessage = error.localizedDescription }
     }
@@ -118,14 +121,14 @@ final class RuntimeModel: ObservableObject {
         guard !operationPending else { return }
         do {
             networkOperation = try send(["command": "create", "name": name, "password": password])
-            operationPending = true; operationMessage = "Создание сети…"
+            operationPending = true; operationMessage = L("op.creating")
         } catch { operationMessage = error.localizedDescription }
     }
     func leave(_ network: EngineNetwork) {
         guard !operationPending else { return }
         do {
             networkOperation = try send(["command": "leave", "name": network.name])
-            operationPending = true; operationMessage = "Выход из сети…"
+            operationPending = true; operationMessage = L("op.leaving")
         } catch { operationMessage = error.localizedDescription }
     }
     func ping(_ peer: EnginePeerView) {
@@ -134,7 +137,7 @@ final class RuntimeModel: ObservableObject {
             let id = try send(["command": "ping", "peer": peer.peer.rid])
             pingRequests[id] = (peer.id, false)
             probeSchedule.sent(to: peer.id, at: ProcessInfo.processInfo.systemUptime)
-            operationMessage = "Проверка \(peer.peer.vip)…"
+            operationMessage = L("op.pinging", peer.peer.vip)
         }
         catch { operationMessage = error.localizedDescription }
     }
@@ -154,7 +157,7 @@ final class RuntimeModel: ObservableObject {
     func installBridgeService(connectAfter: Bool = false) {
         guard !active, !bridgeInstallPending else { return }
         bridgeInstallPending = true
-        bridgeInstallMessage = "Подтвердите однократную установку службы адаптера в системном окне."
+        bridgeInstallMessage = L("bridge.install_prompt")
         Task {
             defer { bridgeInstallPending = false }
             do {
@@ -200,7 +203,8 @@ final class RuntimeModel: ObservableObject {
                 self.peerQuality = [:]; self.pingRequests = [:]
                 if self.phase != "error" {
                     self.phase = status == 0 ? "stopped" : "error"
-                    self.connectionDetail = status == 0 ? "Отключено" : "Движок завершился (код \(status))"
+                    self.reconnectDelaySeconds = nil
+                    self.connectionDetail = status == 0 ? L("phase.stopped") : L("error.engine_exited", Int32(status))
                 }
                 self.scheduleReconnect()
             }
@@ -221,7 +225,7 @@ final class RuntimeModel: ObservableObject {
     private func consume(_ data: Data) {
         incoming.append(data)
         guard incoming.count <= 4 * 1024 * 1024 else {
-            phase = "error"; connectionDetail = "Превышен размер ответа движка"; process?.terminate(); return
+            phase = "error"; reconnectDelaySeconds = nil; connectionDetail = L("error.response_too_large"); process?.terminate(); return
         }
         while let newline = incoming.firstIndex(of: 10) {
             let line = incoming.prefix(upTo: newline)
@@ -235,6 +239,7 @@ final class RuntimeModel: ObservableObject {
                 if let name = event["name"] as? String { deviceName = name }
             case "phase":
                 phase = event["phase"] as? String ?? "error"
+                reconnectDelaySeconds = nil
                 connectionDetail = event["detail"] as? String ?? ""
                 if ["stopped", "error"].contains(phase) {
                     snapshot = nil; operationPending = false; lastTraffic = nil
@@ -261,10 +266,10 @@ final class RuntimeModel: ObservableObject {
                     probeSchedule.retain(connected)
                     for peer in changed { probeSchedule.forget(peer) }
                     snapshot = state
-                    if phase != "stopping" { phase = "online" }
+                    if phase != "stopping" { phase = "online"; reconnectDelaySeconds = nil }
                     if onlineSince == nil { onlineSince = now }
                     if now - (onlineSince ?? now) >= 30 { retryAttempt = 0 }
-                    connectionDetail = state.interfaceReady ? "Подключено к Radmin" : "Сервер подключён · ожидание адаптера"
+                    connectionDetail = state.interfaceReady ? L("phase.online") : L("phase.waiting_adapter")
                     if !changed.isEmpty { refreshLinkQuality() }
                 }
             case "result":
@@ -276,7 +281,7 @@ final class RuntimeModel: ObservableObject {
             case "reply":
                 if event["ok"] as? Bool == false {
                     if let id = (event["id"] as? NSNumber)?.uint64Value, let ping = pingRequests.removeValue(forKey: id), ping.automatic { break }
-                    let error = event["error"] as? String ?? "Ошибка команды"
+                    let error = event["error"] as? String ?? L("error.command")
                     operationMessage = error
                     if (event["id"] as? NSNumber)?.uint64Value == networkOperation { operationPending = false; networkOperation = nil }
                 }
@@ -288,7 +293,7 @@ final class RuntimeModel: ObservableObject {
                 peerQuality[peer] = PeerLinkQuality(rttMilliseconds: event["rtt_ms"] as? Double, measuredAt: ProcessInfo.processInfo.systemUptime)
                 if request.automatic { break }
                 if let error = event["error"] as? String { operationMessage = error }
-                else if let rtt = event["rtt_ms"] as? Double { operationMessage = String(format: "Защищённый канал отвечает: %.1f мс", rtt) }
+                else if let rtt = event["rtt_ms"] as? Double { operationMessage = L("op.ping_reply", rtt) }
             case "operation": operationMessage = event["message"] as? String ?? ""
             default: break
             }

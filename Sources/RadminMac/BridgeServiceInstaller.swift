@@ -27,7 +27,7 @@ enum BridgeServiceInstaller {
             guard process.terminationStatus == 0 else {
                 throw NSError(domain: "RadminBridgeInstall", code: Int(process.terminationStatus), userInfo: [NSLocalizedDescriptionKey: String(decoding: data.prefix(2048), as: UTF8.self)])
             }
-            return "Служба адаптера установлена. Подключения больше не требуют пароля администратора для адаптера."
+            return L("bridge.install_success")
         }.value
     }
 }

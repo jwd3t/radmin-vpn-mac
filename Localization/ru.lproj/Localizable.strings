@@ -1,0 +1,359 @@
+/* System language option in Settings language picker */
+"language.system" = "Системный язык";
+
+/* System menu title in menu bar and main window */
+"menu.system" = "Система";
+
+/* Connect action in System menu */
+"menu.system.connect" = "Подключить";
+
+/* Disconnect action in System menu */
+"menu.system.disconnect" = "Отключить";
+
+/* Settings action in System menu */
+"menu.system.settings" = "Настройки…";
+
+/* Quit action in System menu */
+"menu.system.quit" = "Выход";
+
+/* Network menu title in menu bar and main window */
+"menu.network" = "Сеть";
+
+/* Create network action in Network menu */
+"menu.network.create" = "Создать сеть…";
+
+/* Join network action in Network menu and empty state */
+"menu.network.join" = "Присоединиться к сети…";
+
+/* Retry peer connections action in Network menu */
+"menu.network.retry_peers" = "Повторить соединения";
+
+/* Help menu title in main window */
+"menu.help" = "Справка";
+
+/* About and connection details action in Help menu */
+"menu.help.about" = "О программе и соединении";
+
+/* Light appearance option in Settings */
+"appearance.light" = "Светлая";
+
+/* Dark appearance option in Settings */
+"appearance.dark" = "Тёмная";
+
+/* Automatic appearance option in Settings */
+"appearance.system" = "Автоматически";
+
+/* Status badge and peer fallback status when online */
+"status.online" = "В сети";
+
+/* Status badge when connected to server while waiting for utun adapter */
+"status.waiting_adapter" = "Ожидание адаптера";
+
+/* Status badge and peer fallback status when offline */
+"status.offline" = "Не в сети";
+
+/* Status badge when connection phase is error */
+"status.connection_error" = "Ошибка подключения";
+
+/* Status badge while disconnecting */
+"status.disconnecting" = "Отключение…";
+
+/* Status badge while registering device */
+"status.registering" = "Регистрация…";
+
+/* Status badge and peer fallback status while connecting */
+"status.connecting" = "Подключение…";
+
+/* Banner message prompting user to approve adapter setup in macOS */
+"status.confirm_adapter" = "Подтвердите настройку адаптера в macOS";
+
+/* Help tooltip for the connection details info button */
+"status.connection_info" = "Сведения о соединении";
+
+/* Accessibility label and tooltip for power button when disconnected */
+"power.connect" = "Подключить VPN";
+
+/* Accessibility label and tooltip for power button when connected */
+"power.disconnect" = "Отключить VPN";
+
+/* Empty state message when connected to server with no networks */
+"empty.no_networks" = "Нет подключённых сетей";
+
+/* Empty state message while waiting to connect */
+"empty.waiting_connection" = "Ожидаем подключение…";
+
+/* Empty state message when disconnected */
+"empty.press_power" = "Нажмите кнопку питания";
+
+/* Retry button in interface error banner */
+"action.retry" = "Повторить";
+
+/* Cancel button in network sheet */
+"action.cancel" = "Отмена";
+
+/* Create button in create-network sheet */
+"action.create" = "Создать";
+
+/* Connect button in join-network sheet */
+"action.connect" = "Подключиться";
+
+/* Title of one-time adapter helper setup sheet */
+"bridge_setup.title" = "Однократная настройка адаптера";
+
+/* Description of one-time adapter helper setup sheet */
+"bridge_setup.description" = "Установите системный помощник Radmin VPN один раз. После этого подключение и переподключение не требуют пароля администратора для адаптера.";
+
+/* Security note in one-time adapter helper setup sheet */
+"bridge_setup.note" = "Помощник создаёт только адаптер Radmin. Движок и ключи остаются в вашем пользовательском процессе.";
+
+/* Later button in one-time adapter helper setup sheet */
+"bridge_setup.later" = "Позже";
+
+/* Install and connect button in one-time adapter helper setup sheet */
+"bridge_setup.install_and_connect" = "Установить и подключить";
+
+/* Confirmation dialog title when leaving a network */
+"dialog.leave_network.title" = "Выйти из сети «%@»?";
+
+/* Destructive confirm button when leaving a network */
+"dialog.leave_network.confirm" = "Выйти из сети";
+
+/* Confirmation dialog message when leaving a network */
+"dialog.leave_network.message" = "Для повторного входа в закрытую сеть понадобится её пароль.";
+
+/* Accessibility label to expand a collapsed network card */
+"a11y.network.expand" = "Развернуть сеть %@";
+
+/* Accessibility label to collapse an expanded network card */
+"a11y.network.collapse" = "Свернуть сеть %@";
+
+/* Accessibility value for selected peer row */
+"a11y.selected" = "Выбрано";
+
+/* Context menu action to leave a network */
+"network.leave" = "Выйти из сети…";
+
+/* Empty network card text when no other peers are in the network */
+"network.no_peers" = "Нет других участников";
+
+/* Peer context menu action to ping a peer */
+"peer.ping" = "Проверить связь";
+
+/* Context menu action to copy local or peer IP address */
+"peer.copy_ip" = "Скопировать IP-адрес";
+
+/* Peer tooltip/accessibility quality text before latency has been measured */
+"quality.not_measured" = "Задержка ещё не измерена";
+
+/* Peer tooltip/accessibility quality text when ping did not answer */
+"quality.no_response" = "Нет ответа на проверку связи";
+
+/* Peer tooltip/accessibility quality text with RTT in ms and signal bars out of 4 */
+"quality.ping" = "Ping %1$.0f мс · %2$lld из 4";
+
+/* Title in connection details popover and Settings About pane */
+"about.title" = "Radmin VPN для macOS";
+
+/* Label for local Radmin IP address in connection details popover */
+"details.address" = "Адрес";
+
+/* Label for virtual adapter state in connection details popover */
+"details.adapter" = "Адаптер";
+
+/* Virtual adapter connected value in connection details popover */
+"details.adapter.connected" = "Подключён";
+
+/* Virtual adapter disconnected value in connection details popover */
+"details.adapter.disconnected" = "Не подключён";
+
+/* Label for sent bytes in connection details popover */
+"details.sent" = "Отправлено";
+
+/* Label for received bytes in connection details popover */
+"details.received" = "Получено";
+
+/* Label for dropped frames in connection details popover */
+"details.dropped_frames" = "Отброшено кадров";
+
+/* Label for UDP congestion waits in connection details popover */
+"details.udp_congestion_waits" = "Ожиданий окна UDP";
+
+/* Label for inbound and adapter drops in connection details popover */
+"details.drops_in_adapter" = "Потери: вход / адаптер";
+
+/* Label for queue and forwarding drops in connection details popover */
+"details.drops_queue_forward" = "Потери: очередь / пересылка";
+
+/* Footer in connection details popover */
+"details.footer" = "Независимый клиент · 0.3.3\nOpenRad 2.0.1 · GPL-3.0 / MIT\nНе связан с Famatech.";
+
+/* Megabytes per second rate format in status bar */
+"rate.mb_s" = "%.1f МБ/с";
+
+/* Kilobytes per second rate format in status bar */
+"rate.kb_s" = "%.1f КБ/с";
+
+/* Bytes per second rate format in status bar */
+"rate.b_s" = "%.0f Б/с";
+
+/* Peer transport label for direct TCP */
+"transport.direct_tcp" = "Прямое соединение · TCP";
+
+/* Peer transport label for direct UDP */
+"transport.direct_udp" = "Прямое соединение · UDP";
+
+/* Peer transport label for relay */
+"transport.relay" = "Через сервер";
+
+/* Peer fallback status when transport failed or was refused */
+"transport.no_connection" = "Нет соединения";
+
+/* Sheet title when creating a network */
+"sheet.network.create_title" = "Создать сеть";
+
+/* Sheet title when joining a network */
+"sheet.network.join_title" = "Присоединиться к сети";
+
+/* Picker label for network type in join-network sheet */
+"sheet.network.type" = "Тип сети";
+
+/* Private network option in join-network sheet */
+"sheet.network.private" = "Частная сеть";
+
+/* Gaming network option in join-network sheet */
+"sheet.network.gaming" = "Игровая сеть";
+
+/* Network name field label in network sheet */
+"sheet.network.name" = "Имя сети:";
+
+/* Password field label in network sheet */
+"sheet.network.password" = "Пароль:";
+
+/* Password confirmation field label in create-network sheet */
+"sheet.network.confirm_password" = "Повторите пароль:";
+
+/* Hint below gaming network form */
+"sheet.network.gaming_hint" = "Введите точное название публичной игровой сети Radmin. Пароль для неё не требуется.";
+
+/* Error hint when password confirmation does not match */
+"sheet.network.passwords_mismatch" = "Пароли не совпадают.";
+
+/* Hint describing valid network password length */
+"sheet.network.password_hint" = "Пароль: от 6 до 256 символов.";
+
+/* Settings window title */
+"prefs.title" = "Настройки";
+
+/* Appearance section title and picker label in Settings */
+"prefs.section.appearance" = "Тема";
+
+/* Connection section title in Settings */
+"prefs.section.connection" = "Подключение";
+
+/* About section title in Settings */
+"prefs.section.about" = "О программе";
+
+/* Heading in Settings Appearance section */
+"prefs.appearance.title" = "Выберите цветовую схему";
+
+/* Heading in Settings Connection section */
+"prefs.connection.title" = "Параметры подключения";
+
+/* Device name label in Settings Connection section */
+"prefs.connection.device" = "Устройство";
+
+/* Relay-only toggle label in Settings Connection section */
+"prefs.connection.force_relay" = "Использовать только relay";
+
+/* Hint when relay toggle is locked while VPN is active */
+"prefs.connection.relay_locked_hint" = "Для изменения способа соединения сначала отключите VPN кнопкой питания.";
+
+/* Hint explaining relay mode in Settings Connection section */
+"prefs.connection.relay_hint" = "Relay передаёт трафик через сервер, когда прямое соединение недоступно.";
+
+/* Adapter service heading when installed in Settings */
+"prefs.connection.bridge_installed" = "Служба адаптера установлена";
+
+/* Adapter service heading when not installed in Settings */
+"prefs.connection.bridge_not_installed" = "Адаптер без повторного пароля администратора";
+
+/* Button to update installed adapter service in Settings */
+"prefs.connection.bridge_update" = "Обновить службу адаптера…";
+
+/* Button to install adapter service in Settings */
+"prefs.connection.bridge_install" = "Установить службу один раз…";
+
+/* Default hint under adapter service button in Settings */
+"prefs.connection.bridge_hint" = "Одно подтверждение администратора при установке. Затем переподключения используют системную службу.";
+
+/* Language picker label in Settings Connection section */
+"prefs.connection.language" = "Язык интерфейса";
+
+/* Note about unsupported features in Settings Connection section */
+"prefs.connection.unsupported_note" = "Прокси-сервер и автоматическое обновление в этой версии не поддерживаются.";
+
+/* Version line in Settings About section */
+"prefs.about.version" = "Версия 0.3.3 · SwiftUI · OpenRad 2.0.1";
+
+/* Description text in Settings About section */
+"prefs.about.description" = "Независимый совместимый клиент. Не связан с Famatech. Нативное подключение без Wine и Windows-компонентов.";
+
+/* Link label to OpenRad repository in Settings About section */
+"prefs.about.openrad_link" = "Исходный движок OpenRad";
+
+/* Licenses note in Settings About section */
+"prefs.about.licenses" = "Лицензии: GPL-3.0 и MIT. Полные уведомления о зависимостях находятся в Resources внутри приложения.";
+
+/* Phase detail when stopped/disconnected */
+"phase.stopped" = "Отключено";
+
+/* Phase detail while stopping/disconnecting */
+"phase.stopping" = "Отключение…";
+
+/* Phase detail while connecting to Radmin */
+"phase.connecting" = "Подключение к Radmin…";
+
+/* Phase detail while registering device */
+"phase.provisioning" = "Регистрация устройства в Radmin";
+
+/* Phase detail when Keychain storage fails and waits to retry */
+"phase.storage" = "Не удалось сохранить устройство в Связке ключей. Разблокируйте её; запись будет повторена.";
+
+/* Phase detail when connected and adapter is ready */
+"phase.online" = "Подключено к Radmin";
+
+/* Phase detail when server is connected and adapter is not ready yet */
+"phase.waiting_adapter" = "Сервер подключён · ожидание адаптера";
+
+/* Phase detail when scheduled to reconnect after a delay in seconds */
+"phase.reconnecting" = "Связь потеряна. Повторное подключение через %lld с…";
+
+/* Status bar message while joining a network */
+"op.joining" = "Вход в сеть…";
+
+/* Status bar message while creating a network */
+"op.creating" = "Создание сети…";
+
+/* Status bar message while leaving a network */
+"op.leaving" = "Выход из сети…";
+
+/* Status bar message while pinging a peer IP */
+"op.pinging" = "Проверка %@…";
+
+/* Status bar message when ping succeeds with RTT in ms */
+"op.ping_reply" = "Защищённый канал отвечает: %.1f мс";
+
+/* Status message shown while waiting for admin authorization to install adapter service */
+"bridge.install_prompt" = "Подтвердите однократную установку службы адаптера в системном окне.";
+
+/* Success message after installing the adapter service */
+"bridge.install_success" = "Служба адаптера установлена. Подключения больше не требуют пароля администратора для адаптера.";
+
+/* Error detail when the engine process exits with a non-zero code */
+"error.engine_exited" = "Движок завершился (код %d)";
+
+/* Error detail when engine stdout exceeds buffer limit */
+"error.response_too_large" = "Превышен размер ответа движка";
+
+/* Fallback error message when engine command reply fails without detail */
+"error.command" = "Ошибка команды";

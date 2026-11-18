@@ -18,6 +18,7 @@ cp native/target/release/radmin-identity-helper "$APP/Contents/MacOS/"
 # Remove object/debug paths before signing the distributed Swift executables.
 /usr/bin/strip -S "$APP/Contents/MacOS/RadminVPN" "$APP/Contents/MacOS/radmin-bridge"
 cp LICENSE NOTICE README.md "$APP/Contents/Resources/"
+cp -R Localization/*.lproj "$APP/Contents/Resources/"
 cp vendor/openrad/LICENSE "$APP/Contents/Resources/OpenRad-LICENSE"
 cp vendor/openrad/UPSTREAM.json "$APP/Contents/Resources/OpenRad-UPSTREAM.json"
 if [[ -x "$ROOT/build/toolchain/cargo/bin/rustc" ]]; then

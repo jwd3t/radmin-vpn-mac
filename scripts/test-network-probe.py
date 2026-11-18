@@ -85,7 +85,7 @@ class ProbeTests(unittest.TestCase):
                 stop.set(); server.shutdown(); udp_listener.join(); echo.close(); listener.join()
             report = json.loads((output/'report.json').read_text())
             self.assertTrue((output/'initial.json').is_file())
-            self.assertTrue((output/'Результат.txt').is_file())
+            self.assertTrue((output/'Result.txt').is_file())
             self.assertTrue(report['local_fixture'])
             self.assertEqual(report['udp_idle']['received'], 9 if drop_first else 10)
             self.assertEqual(report['udp_after']['received'], 10)

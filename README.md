@@ -5,7 +5,7 @@
 SwiftUI interface, native Rust networking, and a macOS virtual adapter. No Wine,
 CrossOver, Rosetta, Windows services, or proprietary DLLs are required.
 
-[Русский](README.ru.md) · [Downloads](https://github.com/islamyus/radmin-vpn-mac/releases) · [Build guide](docs/building.md) · [Troubleshooting](docs/troubleshooting.md)
+[Español](README.es.md) · [Русский](README.ru.md) · [Downloads](https://github.com/islamyus/radmin-vpn-mac/releases) · [Build guide](docs/building.md) · [Troubleshooting](docs/troubleshooting.md)
 
 > Independent community project. Not affiliated with or endorsed by Famatech.
 > Apple Silicon is the tested platform. Builds are locally signed, **not Apple
@@ -30,14 +30,16 @@ CrossOver, Rosetta, Windows services, or proprietary DLLs are required.
 2. Launch the app and press the power button. Approve the initial adapter-service
    installation in the macOS system dialog. Keychain may separately request access
    to the saved device, particularly when upgrading an older development build.
-3. Choose **Сеть → Присоединиться к сети…** and enter the same network name and
+3. Choose **Network → Join Network…** and enter the same network name and
    password used by the Windows participants.
 4. Wait for the peer to connect. Its `26.x.x.x` address can then be used by games
    and other IPv4 applications.
 
-The current interface is in Russian. Repeated joins do not require the network
-password once server membership has been saved. Administrator authorization and
-Keychain authorization are separate macOS permissions.
+The interface is available in English, Spanish, and Russian, following the macOS
+system language or chosen in **Settings → Connection** (translations live in
+`Localization/<lang>.lproj/Localizable.strings`). Repeated joins do not require
+the network password once server membership has been saved. Administrator
+authorization and Keychain authorization are separate macOS permissions.
 
 ### Minecraft Java
 

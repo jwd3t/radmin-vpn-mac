@@ -35,10 +35,10 @@ fn options()->Result<Options> {
         fields.insert(key,args.next().context("Option needs a value")?);
     }
     if fields.contains_key("--interactive") {
-        println!("\nПроверка Radmin: сначала запустите Start-Windows-Test.cmd на Windows.\nОставьте обычный VPN включённым на обеих машинах. Пароли не нужны.\n");
-        fields.insert("--source".into(),prompt("Radmin IP этого Mac",&local_vip().unwrap_or_default())?);
-        fields.insert("--peer".into(),prompt("Radmin IP Windows","")?);
-        fields.insert("--label".into(),prompt("Название условий теста","VPN включён на обеих машинах")?);
+        println!("\nRadmin check: first run Start-Windows-Test.cmd on Windows.\nLeave regular VPN connected on both machines. No passwords are needed.\n");
+        fields.insert("--source".into(),prompt("Radmin IP of this Mac",&local_vip().unwrap_or_default())?);
+        fields.insert("--peer".into(),prompt("Windows Radmin IP","")?);
+        fields.insert("--label".into(),prompt("Test conditions label","VPN enabled on both machines")?);
     }
     let source:Ipv4Addr=fields.get("--source").context("Use --source RADMIN_IP --peer WINDOWS_IP, or --interactive")?.parse()?;
     let peer:Ipv4Addr=fields.get("--peer").context("Missing --peer")?.parse()?;
@@ -48,7 +48,7 @@ fn options()->Result<Options> {
     let o=Options {source,peer,port:fields.get("--port").map_or(Ok(48671),|v|v.parse())?,
         mib:fields.get("--mib").map_or(Ok(4),|v|v.parse())?,rounds:fields.get("--rounds").map_or(Ok(2),|v|v.parse())?,
         output:fields.get("--output").map(PathBuf::from).unwrap_or_else(||PathBuf::from(format!("Reports/test-{stamp}-{}",std::process::id()))),
-        label:fields.remove("--label").unwrap_or_else(||"Условия не указаны".into()),loopback};
+        label:fields.remove("--label").unwrap_or_else(||"Conditions not specified".into()),loopback};
     ensure!(o.port>0 && (1..=64).contains(&o.mib) && (1..=5).contains(&o.rounds),"Invalid port / MiB (1..64) / rounds (1..5)");
     ensure!(!o.output.exists(),"Output directory already exists; choose a new directory");
     Ok(o)
@@ -123,7 +123,7 @@ fn transfer(o:&Options,mode:u8,until:Instant)->Result<Value> {
             bounded_write(&mut stream,block,deadline).with_context(||format!("TCP send at {done}/{size} bytes"))?;
         } else {bounded_read(&mut stream,block,deadline).with_context(||format!("TCP receive at {done}/{size} bytes"))?;}
         sha.update(&*block); done+=n as u32;
-        if progress.elapsed()>=Duration::from_secs(5) {println!("  {}: {:.1}/{} МиБ",if mode==b'U'{"Mac → Windows"}else{"Windows → Mac"},done as f64/1048576.0,o.mib);progress=Instant::now();}
+        if progress.elapsed()>=Duration::from_secs(5) {println!("  {}: {:.1}/{} MiB",if mode==b'U'{"Mac → Windows"}else{"Windows → Mac"},done as f64/1048576.0,o.mib);progress=Instant::now();}
     }
     let mut remote=[0;32]; bounded_read(&mut stream,&mut remote,deadline)?;
     ensure!(remote[..]==sha.finalize()[..],"SHA-256 mismatch: corrupted test payload");
@@ -160,9 +160,9 @@ fn main()->Result<()> {
     let mut report=json!({"version":env!("CARGO_PKG_VERSION"),"label":o.label,"source":o.source,"peer":o.peer,"mib":o.mib,"rounds":[],
         "vpn_route_before":route(&o.peer.to_string()),"default_route_before":route("1.1.1.1"),"local_fixture":o.loopback,
         "engine_before":before.as_ref().map(|(_,v)|v),"started_unix_ms":SystemTime::now().duration_since(UNIX_EPOCH)?.as_millis()});
-    println!("Проверка {} → {}. Отчёт: {}",o.source,o.peer,o.output.display());
+    println!("Testing {} → {}. Report: {}",o.source,o.peer,o.output.display());
     save(&o.output.join("initial.json"),&report)?;
-    println!("UDP без нагрузки…");
+    println!("UDP idle…");
     report["udp_idle"]=udp(o.source,o.peer,o.port,Some(10),Arc::default(),until,None);
     let stop=Arc::new(AtomicBool::new(false));let cancel=stop.clone();let (source,peer,port)=(o.source,o.peer,o.port);
     let (ready,started)=std::sync::mpsc::sync_channel(1);
@@ -172,8 +172,8 @@ fn main()->Result<()> {
     for round in 1..=o.rounds {
         let mut result=json!({"round":round});
         for (name,mode) in [("upload",b'U'),("download",b'D')] {
-            println!("Раунд {round}/{}: {}…",o.rounds,if mode==b'U'{"Mac → Windows"}else{"Windows → Mac"});
-            result[name]=match transfer(&o,mode,until) {Ok(v)=>{println!("  {:.2} Мбит/с, SHA-256 OK",v["mbps"].as_f64().unwrap());v},Err(e)=>{all_transfers_ok=false;println!("  Ошибка: {e:#}");json!({"error":format!("{e:#}")})}};
+            println!("Round {round}/{}: {}…",o.rounds,if mode==b'U'{"Mac → Windows"}else{"Windows → Mac"});
+            result[name]=match transfer(&o,mode,until) {Ok(v)=>{println!("  {:.2} Mbps, SHA-256 OK",v["mbps"].as_f64().unwrap());v},Err(e)=>{all_transfers_ok=false;println!("  Error: {e:#}");json!({"error":format!("{e:#}")})}};
             save(&o.output.join(format!("round-{round}-{name}.json")),&result[name])?;
         }
         report["rounds"].as_array_mut().unwrap().push(result);
@@ -195,22 +195,22 @@ fn main()->Result<()> {
     report["verdict"]=json!(if !all_transfers_ok {"failed"} else if !udp_healthy {"warning"} else {"ok"});
     report["finished_unix_ms"]=json!(SystemTime::now().duration_since(UNIX_EPOCH)?.as_millis());
     save(&o.output.join("report.json"),&report)?;
-    let mut text=format!("Условия: {}\nMac: {}\nWindows: {}\n",o.label,o.source,o.peer);
+    let mut text=format!("Conditions: {}\nMac: {}\nWindows: {}\n",o.label,o.source,o.peer);
     for round in report["rounds"].as_array().unwrap() {for (key,title) in [("upload","Mac → Windows"),("download","Windows → Mac")] {
-        text+=&format!("Раунд {} {title}: {}\n",round["round"],if let Some(speed)=round[key]["mbps"].as_f64(){format!("{speed:.2} Мбит/с; SHA-256 OK")}else{round[key]["error"].to_string()});
+        text+=&format!("Round {} {title}: {}\n",round["round"],if let Some(speed)=round[key]["mbps"].as_f64(){format!("{speed:.2} Mbps; SHA-256 OK")}else{round[key]["error"].to_string()});
     }}
-    for (key,title) in [("udp_idle","UDP до нагрузки"),("udp_under_load","UDP под нагрузкой"),("udp_after","UDP после нагрузки")] {
-        if let Some(error)=report[key]["error"].as_str(){text+=&format!("{title}: ошибка {error}\n");continue;}
+    for (key,title) in [("udp_idle","UDP before load"),("udp_under_load","UDP under load"),("udp_after","UDP after load")] {
+        if let Some(error)=report[key]["error"].as_str(){text+=&format!("{title}: error {error}\n");continue;}
         let number=|name:&str|report[key][name].as_f64().map(|v|format!("{v:.1}")).unwrap_or_else(||"—".into());
-        text+=&format!("{title}: {}/{} ответов, потери {}%, медиана {} мс, p95 {} мс\n",report[key]["received"],report[key]["sent"],number("loss_percent"),number("median_ms"),number("p95_ms"));
+        text+=&format!("{title}: {}/{} replies, loss {}%, median {} ms, p95 {} ms\n",report[key]["received"],report[key]["sent"],number("loss_percent"),number("median_ms"),number("p95_ms"));
     }
     if report["engine_traffic_delta"].is_object() {
-        text+=&format!("Движок за тест: отброшено {} кадров, ожиданий окна UDP {}\n",report["engine_traffic_delta"]["dropped"],report["engine_traffic_delta"]["congestion_waits"]);
+        text+=&format!("Engine during test: {} dropped frames, {} UDP window waits\n",report["engine_traffic_delta"]["dropped"],report["engine_traffic_delta"]["congestion_waits"]);
     }
-    text+=&format!("Итог: {}\n",match report["verdict"].as_str(){Some("ok")=>"передачи и UDP-проверки прошли",Some("warning")=>"данные целы, есть потери UDP или проблемы с его проверкой",_=>"есть ошибки передачи"});
-    text+="\nЭто скорость данного маршрута. При смене условий запустите отдельный тест с новым названием.\nОтчёт не содержит паролей или содержимого пользовательских файлов.\n";
-    let mut file=fs::OpenOptions::new().create_new(true).write(true).mode(0o600).open(o.output.join("Результат.txt"))?;file.write_all(text.as_bytes())?;
-    println!("\n{text}\nОтчёт сохранён: {}",o.output.display());
+    text+=&format!("Verdict: {}\n",match report["verdict"].as_str(){Some("ok")=>"transfers and UDP checks passed",Some("warning")=>"payloads intact, UDP loss or check issues",_=>"transfer errors occurred"});
+    text+="\nThis is the speed of the current route. When conditions change, run a separate test with a new label.\nThis report does not contain passwords or user file contents.\n";
+    let mut file=fs::OpenOptions::new().create_new(true).write(true).mode(0o600).open(o.output.join("Result.txt"))?;file.write_all(text.as_bytes())?;
+    println!("\n{text}\nReport saved: {}",o.output.display());
     if !all_transfers_ok {std::process::exit(1);} if !udp_healthy {std::process::exit(2);} Ok(())
 }
 

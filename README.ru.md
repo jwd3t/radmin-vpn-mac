@@ -5,7 +5,7 @@
 Оболочка на SwiftUI, движок на Rust/OpenRad и виртуальный адаптер macOS.
 Wine, CrossOver, Rosetta и Windows-службы для работы не нужны.
 
-[English](README.md) · [Скачать](https://github.com/islamyus/radmin-vpn-mac/releases) · [Сборка](docs/building.md) · [Решение проблем](docs/troubleshooting.md)
+[English](README.md) · [Español](README.es.md) · [Скачать](https://github.com/islamyus/radmin-vpn-mac/releases) · [Сборка](docs/building.md) · [Решение проблем](docs/troubleshooting.md)
 
 Независимый общественный проект, не официальный продукт Famatech.
 Проверенная платформа — Apple Silicon, macOS 14+. Сборки подписаны локальным
